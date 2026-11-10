@@ -216,14 +216,14 @@ body {
 }
 
 .fuel-name {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: bold;
     letter-spacing: 0.3px;
 }
 
 .fuel-category {
     color: #888;
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -236,21 +236,21 @@ body {
 .price {
     color: var(--yellow);
     font-family: "Courier New", monospace;
-    font-size: clamp(23px, 5vw, 30px);
+    font-size: clamp(25px, 5vw, 30px);
     font-weight: bold;
     letter-spacing: -1px;
 }
 
 .price-unit {
     font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     color: white;
     letter-spacing: 0;
 }
 
 .php-price {
     color: #888;
-    font-size: 11px;
+    font-size: 18px;
     margin-top: 5px;
 }
 
@@ -449,7 +449,7 @@ body {
         </div>
 
         <p>
-            The Aesthrellan State Petroleum Administration
+            The KyanliGas State Authority (KyanliGas)
             supervises the distribution and pricing of petroleum
             products throughout the Republic. As the country's
             sole officially designated gasoline station, it
@@ -467,7 +467,7 @@ body {
     <footer class="footer">
 
         <div class="footer-title">
-            Aesthrellan State Petroleum Administration
+            KyanliGas State Authority
         </div>
 
         <div class="datetime">
@@ -494,31 +494,31 @@ body {
 const originalFuels = [
 
     {
-        label: "Regular Diesel",
+        label: "REGULAR DIESEL",
         category: "Automotive Diesel",
         pricePHP: 55.6
     },
 
     {
-        label: "Premium Diesel 91",
+        label: "PREMIUM DIESEL 91",
         category: "Premium Diesel Fuel",
         pricePHP: 65.7
     },
 
     {
-        label: "J-Save Gasoline",
+        label: "J-SAVE GASOLINE",
         category: "Standard Motor Gasoline",
         pricePHP: 50.1
     },
 
     {
-        label: "Premium Diesel 98",
+        label: "PREMIUM DIESEL 98",
         category: "High-Performance Diesel",
         pricePHP: 72.5
     },
 
     {
-        label: "New Age Kerosene",
+        label: "NEW AGE KEROSENE",
         category: "Domestic and Industrial Kerosene",
         pricePHP: 56.3
     }
@@ -609,7 +609,7 @@ function renderBoard() {
                 </div>
 
                 <div class="php-price">
-                    PHP ${fuel.pricePHP}
+                    ₱ ${fuel.pricePHP}
                 </div>
 
             </div>
