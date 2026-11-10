@@ -1,233 +1,643 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Oil Price Indicator of Aesthrella</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #000000;
-            font-family: 'Times New Roman', Times, serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
-        .sign {
-            width: 100%;
-            max-width: 500px;
-            background: #0a0a0a;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(178, 34, 34, 0.35);
-        }
-        .header {
-            background: #b22222;
-            color: #ffcc00;
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .header-title {
-            font-size: 12px;
-            letter-spacing: 0.1px;
-        }
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #ffcc00;
-        }
-        .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #ff0000;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 10px #ff0000, 0 0 18px #ff0000;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-        .board {
-            padding: 20px 25px 18px;
-            background: #0a0a0a;
-        }
-        .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 13px 0;
-            border-bottom: 1px solid #1f1f1f;
-        }
-        .row:last-child {
-            border-bottom: none;
-        }
-        .label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #e5d8c7;
-            letter-spacing: 0.3px;
-        }
-        .price-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-        .price {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: #ff0000;
-            letter-spacing: -1px;
-            line-height: 1;
-            text-shadow: 0 0 8px #ff0000, 0 0 18px #ff0000, 0 0 28px #b22222;
-        }
-        .price::after {
-            content: ' AET';
-            font-size: 15px;
-            font-weight: 400;
-            color: #ffcc00;
-            margin-left: 4px;
-            text-shadow: none;
-        }
-        /* PHP Sub-price - smaller */
-        .price-php {
-            font-size: 11px;
-            font-weight: 500;
-            color: #888888;
-            margin-top: 3px;
-            letter-spacing: 0.4px;
-        }
-        .price-php::before {
-            content: '₱ ';
-            color: #aaaaaa;
-        }
-        .footer {
-            background: #1a1a1a;
-            padding: 14px 25px;
-            color: #cccccc;
-            font-weight: 600;
-            border-top: 2px solid #b22222;
-        }
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            font-size: 10px;
-            letter-spacing: 0.7px;
-            line-height: 1.4;
-        }
-        .footer-top {
-            color: #e5d8c7;
-            text-transform: uppercase;
-        }
-        .timestamp {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 10px;
-            color: #ffcc00;
-            margin-top: 3px;
-        }
-        .system-info {
-            background: #1a1a1a;
-            padding: 10px 25px;
-            color: #cccccc;
-            font-size: 5px;
-            text-align: center;
-            border-top: 1px solid #333333;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>National Oil Price Indicator | Aesthrella</title>
+
+<style>
+:root {
+    --red: #a71919;
+    --dark-red: #761010;
+    --yellow: #f2c400;
+    --black: #090909;
+    --panel: #151515;
+    --gray: #999999;
+    --white: #f4f4f4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080808;
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 35px 15px;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    background: var(--black);
+    border: 1px solid #292929;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+}
+
+/* OFFICIAL TOP BAR */
+
+.topbar {
+    background: var(--red);
+    padding: 17px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 4px solid var(--yellow);
+}
+
+.country {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.live {
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.live-dot {
+    width: 9px;
+    height: 9px;
+    background: #ff3535;
+    border-radius: 50%;
+    box-shadow: 0 0 10px red;
+    animation: blink 1.3s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
+
+/* LANDSCAPE IMAGE */
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    overflow: hidden;
+    background: #222;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.68);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.95),
+        rgba(0,0,0,0.05) 75%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+}
+
+.hero-tag {
+    color: var(--yellow);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 9px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-size: clamp(23px, 5vw, 36px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.15;
+}
+
+.hero-subtitle {
+    color: #dddddd;
+    font-size: 12px;
+    margin-top: 9px;
+    letter-spacing: 0.5px;
+}
+
+/* ADMINISTRATION HEADING */
+
+.heading {
+    padding: 26px 30px 20px;
+    border-bottom: 1px solid #303030;
+}
+
+.heading-label {
+    color: var(--yellow);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.heading h2 {
+    font-size: 21px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.heading p {
+    color: var(--gray);
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+/* PRICE BOARD */
+
+.board {
+    padding: 10px 30px 25px;
+}
+
+.board-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0;
+    border-bottom: 2px solid var(--red);
+}
+
+.board-heading h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+}
+
+.board-heading span {
+    color: var(--yellow);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.fuel-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 15px;
+    border-bottom: 1px solid #292929;
+    transition: background 0.2s;
+}
+
+.fuel-row:hover {
+    background: #191919;
+}
+
+.fuel-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fuel-name {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+.fuel-category {
+    color: #888;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.price-container {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.price {
+    color: var(--yellow);
+    font-family: "Courier New", monospace;
+    font-size: clamp(23px, 5vw, 30px);
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+.price-unit {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: white;
+    letter-spacing: 0;
+}
+
+.php-price {
+    color: #888;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+/* NATIONAL POLICY */
+
+.policy {
+    margin: 0 30px 25px;
+    padding: 19px;
+    background: #171717;
+    border-left: 4px solid var(--red);
+}
+
+.policy-title {
+    color: var(--yellow);
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.policy p {
+    color: #c0c0c0;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* FOOTER */
+
+.footer {
+    background: #171717;
+    border-top: 3px solid var(--red);
+    padding: 22px 30px;
+    text-align: center;
+}
+
+.footer-title {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.datetime {
+    color: var(--yellow);
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+.footer-note {
+    color: #777;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    margin-top: 14px;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 550px) {
+    body {
+        padding: 12px 8px;
+    }
+
+    .topbar {
+        padding: 15px;
+    }
+
+    .country {
+        font-size: 10px;
+    }
+
+    .hero {
+        height: 230px;
+    }
+
+    .hero-overlay {
+        padding: 20px;
+    }
+
+    .heading {
+        padding: 23px 18px;
+    }
+
+    .board {
+        padding: 8px 17px 22px;
+    }
+
+    .fuel-row {
+        padding: 18px 8px;
+    }
+
+    .fuel-name {
+        font-size: 12px;
+    }
+
+    .policy {
+        margin: 0 17px 22px;
+    }
+
+    .footer {
+        padding: 20px 15px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="sign">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-title">People's Republic of Aesthrella</div>
-            <div class="live-indicator">
-                <span class="live-dot"></span> LIVE
+
+<div class="container">
+
+    <!-- OFFICIAL HEADER -->
+
+    <header class="topbar">
+        <div class="country">
+            People's Republic of Aesthrella
+        </div>
+
+        <div class="live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </header>
+
+
+    <!-- GAS STATION LANDSCAPE -->
+
+    <section class="hero">
+
+        <img
+            src="kyanligas.jpg"
+            alt="State-operated petroleum station"
+        >
+
+        <div class="hero-overlay">
+
+            <div class="hero-tag">
+                National Gasoline Indicator System
             </div>
-        </div>
-        <div class="board" id="priceBoard">
-            <!-- Populated by JavaScript -->
-        </div>
-        <div class="footer">
-            <div class="footer-content">
-                <div class="footer-top">National Fuel Price Indicator</div>
-                <div class="timestamp" id="timestamp"> UPDATED : <span id="datetime"></span> </div>
+
+            <div class="hero-title">
+                KyanliGas State<br>
+                Authority
             </div>
+
+            <div class="hero-subtitle">
+                The sole officially designated gasoline station
+                of the People's Republic of Aesthrella
+            </div>
+
         </div>
-        <div class="system-info">
-            These are now displayed in national-defined gasoline stations and all are equal to avoid competition.
+
+    </section>
+
+
+    <!-- ADMINISTRATION INFORMATION -->
+
+    <section class="heading">
+
+        <div class="heading-label">
+            Official National Price Bulletin
         </div>
-    </div>
-    <script>
-        // ==================== EDITABLE DATA ====================
-        const originalFuels = [
-            { label: "Regular Diesel", pricePHP: 55.6 },
-            { label: "Premium Diesel 91", pricePHP: 65.7 },
-            { label: "J-Save Gasoline", pricePHP: 50.1 },
-            { label: "Premium Diesel 98", pricePHP: 72.5 },
-            { label: "New Age Kerosene", pricePHP: 56.3 }
-        ];
-        const fuels = originalFuels.map(fuel => ({
-            label: fuel.label,
-            priceAET: (fuel.pricePHP * 1).toFixed(1),
-            pricePHP: fuel.pricePHP.toFixed(1)
-        }));
-        const countryName = "People's Republic of Aesthrella";
-        // =======================================================
-        function updateDateTime() {
-            const datetimeEl = document.getElementById('datetime');
-            const now = new Date();
-            const options = {
-                weekday: 'short',
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            datetimeEl.textContent = now.toLocaleString('en-US', options);
-        }
-        function renderBoard() {
-            const board = document.getElementById('priceBoard');
-            board.innerHTML = '';
-            fuels.forEach(fuel => {
-                const row = document.createElement('div');
-                row.className = 'row';
-                row.innerHTML = `
-                    <div class="label">${fuel.label}</div>
-                    <div class="price-container">
-                        <div class="price">${fuel.priceAET}</div>
-                        <div class="price-php">${fuel.pricePHP}</div>
-                    </div>
-                `;
-                board.appendChild(row);
-            });
-        }
-        window.onload = () => {
-            document.querySelector('.header-title').textContent = countryName;
-            renderBoard();
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-        };
-    </script>
+
+        <h2>National Oil Price Indicator</h2>
+
+        <p>
+            The official petroleum price schedule established
+            by the KyanliGas State Authority.
+            All listed fuel products follow nationally prescribed
+            prices for public distribution.
+        </p>
+
+    </section>
+
+
+    <!-- FUEL PRICE BOARD -->
+
+    <main class="board" id="priceBoard">
+
+        <div class="board-heading">
+            <h3>Available Petroleum Products</h3>
+            <span>PRICE / LITRE</span>
+        </div>
+
+    </main>
+
+
+    <!-- NATIONAL POLICY -->
+
+    <section class="policy">
+
+        <div class="policy-title">
+            National Petroleum Distribution Policy
+        </div>
+
+        <p>
+            The Aesthrellan State Petroleum Administration
+            supervises the distribution and pricing of petroleum
+            products throughout the Republic. As the country's
+            sole officially designated gasoline station, it
+            maintains a unified national price schedule to ensure
+            consistent and orderly access to fuel. All prices are
+            established by the State and are equally applied to
+            consumers.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-title">
+            Aesthrellan State Petroleum Administration
+        </div>
+
+        <div class="datetime">
+            LAST UPDATED: <span id="datetime">Loading...</span>
+        </div>
+
+        <div class="footer-note">
+            PEOPLE'S REPUBLIC OF AESTHRELLA<br>
+            NATIONAL PETROLEUM AND FUEL PRICE INFORMATION SYSTEM<br>
+            OFFICIAL STATE DISPLAY
+        </div>
+
+    </footer>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   EDITABLE NATIONAL FUEL PRICE DATA
+===================================== */
+
+const originalFuels = [
+
+    {
+        label: "Regular Diesel",
+        category: "Automotive Diesel",
+        pricePHP: 55.6
+    },
+
+    {
+        label: "Premium Diesel 91",
+        category: "Premium Diesel Fuel",
+        pricePHP: 65.7
+    },
+
+    {
+        label: "J-Save Gasoline",
+        category: "Standard Motor Gasoline",
+        pricePHP: 50.1
+    },
+
+    {
+        label: "Premium Diesel 98",
+        category: "High-Performance Diesel",
+        pricePHP: 72.5
+    },
+
+    {
+        label: "New Age Kerosene",
+        category: "Domestic and Industrial Kerosene",
+        pricePHP: 56.3
+    }
+
+];
+
+
+/* =====================================
+   CURRENCY CONVERSION
+   1 AET = 1 PHP
+===================================== */
+
+const exchangeRate = 1;
+
+const fuels = originalFuels.map(fuel => ({
+
+    label: fuel.label,
+
+    category: fuel.category,
+
+    priceAET: (fuel.pricePHP / exchangeRate).toFixed(1),
+
+    pricePHP: fuel.pricePHP.toFixed(1)
+
+}));
+
+
+/* =====================================
+   LIVE DATE AND TIME
+===================================== */
+
+function updateDateTime() {
+
+    const now = new Date();
+
+    const options = {
+
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+
+    };
+
+    document.getElementById("datetime").textContent =
+        now.toLocaleString("en-US", options);
+
+}
+
+
+/* =====================================
+   RENDER NATIONAL FUEL BOARD
+===================================== */
+
+function renderBoard() {
+
+    const board = document.getElementById("priceBoard");
+
+    fuels.forEach(fuel => {
+
+        const row = document.createElement("div");
+
+        row.className = "fuel-row";
+
+        row.innerHTML = `
+
+            <div class="fuel-info">
+
+                <div class="fuel-name">
+                    ${fuel.label}
+                </div>
+
+                <div class="fuel-category">
+                    ${fuel.category}
+                </div>
+
+            </div>
+
+            <div class="price-container">
+
+                <div class="price">
+                    ${fuel.priceAET}
+                    <span class="price-unit">AET</span>
+                </div>
+
+                <div class="php-price">
+                    PHP ${fuel.pricePHP}
+                </div>
+
+            </div>
+
+        `;
+
+        board.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================
+   INITIALIZE SYSTEM
+===================================== */
+
+window.addEventListener("load", function() {
+
+    renderBoard();
+
+    updateDateTime();
+
+    setInterval(updateDateTime, 1000);
+
+});
+
+</script>
+
 </body>
 </html>
